@@ -5,9 +5,11 @@
     "scripts": ["background.js"]
   },
   "description": "Copy a still frame image from a video into the clipboard",
-  "icons": {},
+  "icons": {
+    "512": "icon.png"
+  },
   "manifest_version": 2,
   "name": "Copy Video Frame",
   "permissions": ["menus", "activeTab", "clipboardWrite", "notifications"],
-  "version": "1.0.2"
+  "version": "1.0.3"
 }
