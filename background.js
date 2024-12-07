@@ -18,6 +18,7 @@ function notify(title, message = "", iconUrl = "icon.png") {
   }
 }
 
+/* only works with none encrypted videos
 browser.menus.create({
   title: "For None DRM protected media",
   contexts: ["video"],
@@ -53,9 +54,10 @@ browser.menus.create({
     }
   },
 });
+*/
 
 browser.menus.create({
-  title: "For DRM protected media",
+  title: "Copy Video Frame",
   contexts: ["video"],
   onclick: async (info, tab) => {
     try {
@@ -72,11 +74,21 @@ browser.menus.create({
         element = element.offsetParent;
     } while(element);
 
-    if(vidEl.hasAttribute('contorls')){
-     vidEl.removeAttribute('controls');
-    setTimeout(() => {
-     vidEl.setAttribute('controls',"");
-        },1000);
+    /* html5 controls */
+    if(vidEl.hasAttribute('controls')){
+        vidEl.removeAttribute('controls');
+        setTimeout( () => {
+            vidEl.setAttribute('controls',"");
+        },1500);
+    }
+
+    /* yt workaround */
+    const ytc = document.querySelector('.ytp-chrome-bottom');
+    if(ytc !== null){
+        ytc.style.display = 'none';
+        setTimeout( () => {
+            ytc.style.display = 'block';
+        },1500);
     }
 
     return {
@@ -87,20 +99,16 @@ browser.menus.create({
     };
 })();`,
       });
-
       elBrect = elBrect[0];
-
       const dataURI = await browser.tabs.captureVisibleTab(tab.windowId, {
         rect: elBrect,
       });
-
       const blob = await (await fetch(dataURI)).blob();
       await navigator.clipboard.write([
         new ClipboardItem({
           "image/png": blob,
         }),
       ]);
-
       notify("Copy Video Frame", "copied video frame");
     } catch (e) {
       console.error(e);

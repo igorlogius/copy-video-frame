@@ -10,6 +10,7 @@
   },
   "manifest_version": 2,
   "name": "Copy Video Frame",
-  "permissions": ["menus", "activeTab", "clipboardWrite", "notifications"],
-  "version": "1.0.3"
+  "permissions": ["menus", "activeTab", "clipboardWrite"],
+  "optional_permissions": ["notifications"],
+  "version": "1.0.4"
 }
