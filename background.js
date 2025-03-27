@@ -82,14 +82,22 @@ browser.menus.create({
         },1500);
     }
 
-    /* yt workaround */
-    const ytc = document.querySelector('.ytp-chrome-bottom');
-    if(ytc !== null){
-        ytc.style.display = 'none';
+    /* yt workarounds >>> */
+
+    // hide pseudo video controls
+    const ytcb = document.querySelector('.ytp-chrome-bottom');
+    if(ytcb !== null){
+        ytcb_style_display = ytcb.style.display;
+        ytcb.style.display = 'none';
         setTimeout( () => {
-            ytc.style.display = 'block';
+            ytcb.style.display = ytcb_style_display;
         },1500);
     }
+    // remove pseudo context menu
+    Array.from(document.querySelectorAll('.ytp-contextmenu')).forEach( el => {
+        el.remove();
+    });
+    /* <<< yt workarounds */
 
     return {
         x: left,

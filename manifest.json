@@ -12,5 +12,5 @@
   "name": "Copy Video Frame",
   "permissions": ["menus", "activeTab", "clipboardWrite"],
   "optional_permissions": ["notifications"],
-  "version": "1.0.4"
+  "version": "1.0.5"
 }
