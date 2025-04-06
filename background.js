@@ -18,44 +18,6 @@ function notify(title, message = "", iconUrl = "icon.png") {
   }
 }
 
-/* only works with none encrypted videos
-browser.menus.create({
-  title: "For None DRM protected media",
-  contexts: ["video"],
-  onclick: async (info, tab) => {
-    try {
-      const dataURI = await browser.tabs.executeScript(tab.id, {
-        frameId: info.frameId,
-        code: `(() => {
-            const vidEl = browser.menus.getTargetElement(${info.targetElementId});
-            const canvas = document.createElement("canvas");
-            canvas.width = vidEl.videoWidth;
-            canvas.height= vidEl.videoHeight;
-            const ctx = canvas.getContext("2d");
-            ctx.drawImage(vidEl, 0, 0, vidEl.videoWidth, vidEl.videoHeight);
-            return canvas.toDataURL("image/png", 1.0);
-        })();`,
-      });
-
-      const blob = await (await fetch(dataURI)).blob();
-      await navigator.clipboard.write([
-        new ClipboardItem({
-          "image/png": blob,
-        }),
-      ]);
-
-      //iconBlink();
-      notify("Copy Video Frame", "copied video frame");
-    } catch (e) {
-      notify(
-        "Copy Video Frame",
-        "failed to copy video frame:\n" + e.toString(),
-      );
-    }
-  },
-});
-*/
-
 browser.menus.create({
   title: "Copy Video Frame",
   contexts: ["video"],
@@ -117,13 +79,10 @@ browser.menus.create({
           "image/png": blob,
         }),
       ]);
-      notify("Copy Video Frame", "copied video frame");
+      notify("Copy Video Frame", "Image in clipboard\n(paste with CTRL+V)");
     } catch (e) {
       console.error(e);
-      notify(
-        "Copy Video Frame",
-        "failed to copy video frame:\n" + e.toString(),
-      );
+      notify("Copy Video Frame", "Failed:\n" + e.toString());
     }
   },
 });

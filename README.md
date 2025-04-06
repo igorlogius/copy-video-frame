@@ -1,4 +1,4 @@
-Copy a still frame image from a video into the clipboard so it can be pasted in any other application, like a document processor 
+Copy a still frame image from a video into the clipboard so it can be pasted in any other application that supports it, like a document processor, a spreadsheet or a presentation slide
 
 [![](https://raw.githubusercontent.com/igorlogius/igorlogius/main/geFxAddon.png)](https://addons.mozilla.org/firefox/addon/copy-video-frame/)
 
