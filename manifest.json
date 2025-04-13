@@ -4,12 +4,12 @@
   "background": {
     "scripts": ["background.js"]
   },
-  "description": "Copy a still frame image from a video into the clipboard",
+  "description": "Copy a still frame image from any video into the clipboard for copying into other applications",
   "icons": {
     "512": "icon.png"
   },
   "manifest_version": 2,
   "name": "Copy Video Frame",
   "permissions": ["notifications", "menus", "activeTab", "clipboardWrite"],
-  "version": "1.0.6"
+  "version": "1.0.7"
 }

@@ -23,53 +23,18 @@ browser.menus.create({
   contexts: ["video"],
   onclick: async (info, tab) => {
     try {
+      // first we get the <video>
+      await browser.tabs.executeScript(tab.id, {
+        frameId: info.frameId,
+        code: `var vidEl = browser.menus.getTargetElement(${info.targetElementId})`,
+      });
+      // then we get the video coords + size (x,y,width,height)
       let elBrect = await browser.tabs.executeScript(tab.id, {
         frameId: info.frameId,
-        code: `(() => {
-    const vidEl = browser.menus.getTargetElement(${info.targetElementId});
-    const tmp = vidEl.getBoundingClientRect();
-    let element = vidEl;
-    var top = 0, left = 0;
-    do {
-        top += element.offsetTop  || 0;
-        left += element.offsetLeft || 0;
-        element = element.offsetParent;
-    } while(element);
-
-    /* html5 controls */
-    if(vidEl.hasAttribute('controls')){
-        vidEl.removeAttribute('controls');
-        setTimeout( () => {
-            vidEl.setAttribute('controls',"");
-        },1500);
-    }
-
-    /* yt workarounds >>> */
-
-    // hide pseudo video controls
-    const ytcb = document.querySelector('.ytp-chrome-bottom');
-    if(ytcb !== null){
-        ytcb_style_display = ytcb.style.display;
-        ytcb.style.display = 'none';
-        setTimeout( () => {
-            ytcb.style.display = ytcb_style_display;
-        },1500);
-    }
-    // remove pseudo context menu
-    Array.from(document.querySelectorAll('.ytp-contextmenu')).forEach( el => {
-        el.remove();
-    });
-    /* <<< yt workarounds */
-
-    return {
-        x: left,
-        y: top,
-        width: tmp.width,
-        height: tmp.height
-    };
-})();`,
+        file: "getElBRect.js",
       });
       elBrect = elBrect[0];
+      // then we capture visible area of the video
       const dataURI = await browser.tabs.captureVisibleTab(tab.windowId, {
         rect: elBrect,
       });
@@ -79,10 +44,10 @@ browser.menus.create({
           "image/png": blob,
         }),
       ]);
-      notify("Copy Video Frame", "Image in clipboard\n(paste with CTRL+V)");
+      notify("Copy Video Frame", "Image in clipboard\n(Insert with CTRL+V)");
     } catch (e) {
       console.error(e);
-      notify("Copy Video Frame", "Failed:\n" + e.toString());
+      notify("Copy Video Frame", e.toString());
     }
   },
 });
