@@ -23,20 +23,24 @@
     vidEl.removeAttribute("controls");
     setTimeout(() => {
       vidEl.setAttribute("controls", "");
-    }, 1500);
+    }, 2000);
   }
 
-  /*
-   * hide fake youtube controls and contextmenu
-   */
-  const ytcb = document.querySelector(".ytp-chrome-bottom");
-  if (ytcb !== null) {
-    ytcb_style_display = ytcb.style.display;
-    ytcb.style.display = "none";
-    setTimeout(() => {
-      ytcb.style.display = ytcb_style_display;
-    }, 1500);
+  function brieflyHide(selector) {
+    const el = document.querySelector(selector);
+    if (el !== null) {
+      el_style_display = el.style.display;
+      el.style.display = "none";
+      setTimeout(() => {
+        el.style.display = el_style_display;
+      }, 2000);
+    }
   }
+  // hide: title and some buttons (watch later, share)
+  brieflyHide(".ytp-chrome-top");
+  // hide: fake controls
+  brieflyHide(".ytp-chrome-bottom");
+  // remove fake contextmenus
   Array.from(document.querySelectorAll(".ytp-contextmenu")).forEach((el) => {
     el.remove();
   });
